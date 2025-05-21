@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">RickVerse</string>
+
+    <!-- Bottom Nav -->
+    <string name="home">Home</string>
+    <string name="characters">Characters</string>
+    <string name="episodes">Episodes</string>
+    <string name="portal">Portal</string>
+    <string name="profile">Profile</string>
+
 </resources>
