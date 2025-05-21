@@ -8,7 +8,12 @@ import com.bkaancelen.rickverse.domain.repository.CharacterRepository
 class CharacterRepositoryImpl(
     private val api: MultiverseApi
 ) : CharacterRepository {
-    override suspend fun getCharacters(): List<Character> {
-        return api.getCharacters().results.map { it.toDomain() }
+
+    override suspend fun getCharacters(
+        name: String?,
+        status: String?,
+        gender: String?
+    ): List<Character> {
+        return api.getCharacters(name, status, gender).results.map { it.toDomain() }
     }
 }

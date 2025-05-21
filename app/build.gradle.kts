@@ -66,6 +66,7 @@ dependencies {
     implementation(libs.retrofit.converter.gson)
     implementation(libs.okhttp3.logging)
     implementation(libs.coil)
+    implementation(libs.kotlin.coroutines)
 
     testImplementation(libs.junit)
 
