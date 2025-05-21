@@ -15,7 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.bkaancelen.rickverse.presentation.screens.main.BottomBar
 import com.yourname.multiverseexplorer.presentation.screens.main.NavigationGraph
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

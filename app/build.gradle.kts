@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.android.compose)
+    alias(libs.plugins.dagger.hilt)
+    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
@@ -57,7 +59,13 @@ dependencies {
     implementation(libs.material.compose)
     implementation(libs.navigation.compose)
     implementation(libs.lifecycle.runtime)
+    implementation(libs.hilt)
+    kapt(libs.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
 
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp3.logging)
 
     testImplementation(libs.junit)
 

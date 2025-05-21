@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.bkaancelen.rickverse.presentation.navigation.BottomNavItem
+import com.bkaancelen.rickverse.presentation.screens.character.CharacterScreen
 
 @Composable
 fun NavigationGraph(navController: NavHostController) {
@@ -32,7 +33,6 @@ fun NavigationGraph(navController: NavHostController) {
 }
 
 @Composable fun HomeScreen() = Text("🛸 Home Screen")
-@Composable fun CharacterScreen() = Text("👽 Character Screen")
 @Composable fun EpisodeScreen() = Text("📼 Episode Screen")
 @Composable fun PortalScreen() = Text("🌀 Portal Screen")
 @Composable fun ProfileScreen() = Text("🧑‍🚀 Profile Screen")
