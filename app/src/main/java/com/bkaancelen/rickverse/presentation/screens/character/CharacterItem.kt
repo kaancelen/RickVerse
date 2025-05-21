@@ -3,7 +3,6 @@ package com.bkaancelen.rickverse.presentation.screens.character
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import com.bkaancelen.rickverse.domain.model.Character
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,31 +21,36 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import coil.compose.AsyncImage
+import com.bkaancelen.rickverse.R
+import com.bkaancelen.rickverse.domain.model.Character
 
 @Composable
 fun CharacterItem(character: Character) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+            .padding(dimensionResource(R.dimen.space_xs)),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = dimensionResource(R.dimen.space_xxs)
+        )
     ) {
         Row(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(dimensionResource(R.dimen.space_m))
         ) {
             // Image
             AsyncImage(
                 model = character.image,
                 contentDescription = character.name,
                 modifier = Modifier
-                    .size(80.dp)
-                    .clip(RoundedCornerShape(12.dp)),
+                    .size(dimensionResource(R.dimen.iv_character_item))
+                    .clip(RoundedCornerShape(dimensionResource(R.dimen.space_s))),
                 contentScale = ContentScale.Crop
             )
 
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(dimensionResource(R.dimen.space_m)))
 
             // Textual Info
             Column(modifier = Modifier.weight(1f)) {
@@ -64,30 +68,34 @@ fun CharacterItem(character: Character) {
                     }
                     Box(
                         modifier = Modifier
-                            .size(8.dp)
+                            .size(dimensionResource(R.dimen.space_xs))
                             .clip(CircleShape)
                             .background(color)
                     )
-                    Spacer(modifier = Modifier.width(4.dp))
+                    Spacer(modifier = Modifier.width(dimensionResource(R.dimen.space_xxs)))
                     Text(text = character.status, style = MaterialTheme.typography.labelSmall)
                 }
 
                 Text(
-                    text = "${character.species} • ${character.gender}",
+                    text = stringResource(
+                        R.string.character_item_line_2,
+                        character.species,
+                        character.gender
+                    ),
                     style = MaterialTheme.typography.bodySmall
                 )
 
                 Text(
-                    text = "Origin: ${character.originName}",
+                    text = stringResource(R.string.character_item_line_3, character.originName),
                     style = MaterialTheme.typography.bodySmall
                 )
 
                 Text(
-                    text = buildString {
-                        append("${character.episodeCount} episode")
-                        if (character.episodeCount != 1) append("s")
-                        append(" • First in episode ${character.firstSeenEpisodeNumber}")
-                    },
+                    text = stringResource(
+                        R.string.character_item_line_4,
+                        character.episodeCount,
+                        character.firstSeenEpisodeNumber ?:0
+                    ),
                     style = MaterialTheme.typography.bodySmall
                 )
             }

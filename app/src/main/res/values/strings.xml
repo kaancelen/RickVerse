@@ -8,4 +8,29 @@
     <string name="portal">Portal</string>
     <string name="profile">Profile</string>
 
+    <!-- Character -->
+    <string name="character_otf_search_hint">Search by name</string>
+    <string name="character_error_message">❌ %1$s</string>
+    <string name="character_not_found">No characters found</string>
+    <string name="character_item_line_2">%1$s • %2$s</string>
+    <string name="character_item_line_3">Origin: %1$s</string>
+    <string name="character_item_line_4">%1$d episode • First in episode %2$d</string>
+    <string name="character_reset_filter">Reset Filters</string>
+    <string name="character_reset_filter_cd">Reset</string>
+    <string name="character_gender_hint">Gender</string>
+    <string-array name="character_gender_filter">
+        <item>All</item>
+        <item>Female</item>
+        <item>Male</item>
+        <item>Genderless</item>
+        <item>Unknown</item>
+    </string-array>
+    <string name="character_status_hint">Status</string>
+    <string-array name="character_status_filter">
+        <item>All</item>
+        <item>Alive</item>
+        <item>Dead</item>
+        <item>Unknown</item>
+    </string-array>
+
 </resources>

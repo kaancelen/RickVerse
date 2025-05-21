@@ -17,8 +17,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.bkaancelen.rickverse.R
 
 @Composable
 fun CharacterScreen(viewModel: CharacterViewModel = hiltViewModel()) {
@@ -29,49 +31,63 @@ fun CharacterScreen(viewModel: CharacterViewModel = hiltViewModel()) {
         OutlinedTextField(
             value = viewModel.nameQuery.orEmpty(),
             onValueChange = viewModel::onNameQueryChanged,
-            label = { Text("Search by name") },
-            modifier = Modifier.fillMaxWidth().padding(8.dp),
+            label = { Text(stringResource(R.string.character_otf_search_hint)) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(dimensionResource(R.dimen.space_xs)),
             maxLines = 1
         )
 
         // Filters
         Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = dimensionResource(R.dimen.space_xs))
         ) {
             StatusFilterDropdown(
                 selected = viewModel.statusQuery,
                 onSelected = viewModel::onStatusChanged,
             )
-            Spacer(modifier = Modifier.padding(8.dp))
+            Spacer(modifier = Modifier.padding(dimensionResource(R.dimen.space_xs)))
             GenderFilterDropdown(
                 selected = viewModel.genderQuery,
                 onSelected = viewModel::onGenderChanged
             )
-            Spacer(modifier = Modifier.padding(8.dp))
+            Spacer(modifier = Modifier.padding(dimensionResource(R.dimen.space_xs)))
             ResetFiltersButton(
                 onReset = viewModel::resetFilters
             )
         }
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.space_xs)))
 
         // Content
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(start = 8.dp, end = 8.dp, bottom = 24.dp)
+            contentPadding = PaddingValues(
+                start = dimensionResource(R.dimen.space_xs),
+                end = dimensionResource(R.dimen.space_xs),
+                bottom = dimensionResource(R.dimen.space_l)
+            )
         ) {
             when {
                 state.errorMessage != null -> {
                     item {
-                        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                            Text("❌ ${state.errorMessage}")
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(stringResource(R.string.character_error_message, state.errorMessage))
                         }
                     }
                 }
 
                 state.characters.isEmpty() -> {
                     item {
-                        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                            Text("No characters found.")
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(stringResource(R.string.character_not_found))
                         }
                     }
                 }
@@ -90,7 +106,9 @@ fun CharacterScreen(viewModel: CharacterViewModel = hiltViewModel()) {
             if (state.isLoading) {
                 item {
                     Box(
-                        modifier = Modifier.fillMaxWidth().padding(vertical = 24.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = dimensionResource(R.dimen.space_l)),
                         contentAlignment = Alignment.Center
                     ) {
                         CircularProgressIndicator()

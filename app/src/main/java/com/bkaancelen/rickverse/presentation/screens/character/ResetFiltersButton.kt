@@ -6,17 +6,19 @@ import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.bkaancelen.rickverse.R
 
 
 @Composable
 fun ResetFiltersButton(onReset: () -> Unit) {
     AssistChip(
         onClick = onReset,
-        label = { Text("Reset Filters") },
+        label = { Text(stringResource(R.string.character_reset_filter)) },
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Refresh,
-                contentDescription = "Reset"
+                contentDescription = stringResource(R.string.character_reset_filter_cd)
             )
         }
     )

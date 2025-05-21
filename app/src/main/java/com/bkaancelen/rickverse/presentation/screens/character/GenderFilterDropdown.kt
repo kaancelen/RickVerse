@@ -10,18 +10,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
+import com.bkaancelen.rickverse.R
 
 @Composable
 fun GenderFilterDropdown(
     selected: String?,
     onSelected: (String?) -> Unit
 ) {
-    val options = listOf("All", "Female", "Male", "Genderless", "Unknown")
+    val options = stringArrayResource(R.array.character_gender_filter)
     var expanded by remember { mutableStateOf(false) }
 
     Box {
         OutlinedButton(onClick = { expanded = true }) {
-            Text(text = selected ?: "Gender")
+            Text(text = selected ?: stringResource(R.string.character_gender_hint))
         }
 
         DropdownMenu(
@@ -32,7 +35,7 @@ fun GenderFilterDropdown(
                 DropdownMenuItem(
                     text = { Text(gender) },
                     onClick = {
-                        onSelected(if (gender == "All") null else gender)
+                        onSelected(if (gender == options.first()) null else gender)
                         expanded = false
                     }
                 )

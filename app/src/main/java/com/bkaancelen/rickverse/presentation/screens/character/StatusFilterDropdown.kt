@@ -10,18 +10,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
+import com.bkaancelen.rickverse.R
 
 @Composable
 fun StatusFilterDropdown(
     selected: String?,
     onSelected: (String?) -> Unit
 ) {
-    val options = listOf("All", "Alive", "Dead", "Unknown")
+    val options = stringArrayResource(R.array.character_status_filter)
     var expanded by remember { mutableStateOf(false) }
 
     Box {
         OutlinedButton(onClick = { expanded = true }) {
-            Text(text = selected ?: "Status")
+            Text(text = selected ?: stringResource(R.string.character_status_hint))
         }
 
         DropdownMenu(
@@ -32,7 +35,7 @@ fun StatusFilterDropdown(
                 DropdownMenuItem(
                     text = { Text(status) },
                     onClick = {
-                        onSelected(if (status == "All") null else status)
+                        onSelected(if (status == options.first()) null else status)
                         expanded = false
                     }
                 )

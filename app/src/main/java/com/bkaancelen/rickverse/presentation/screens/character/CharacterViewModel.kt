@@ -23,9 +23,8 @@ class CharacterViewModel @Inject constructor(
         private set
     var genderQuery by mutableStateOf<String?>(null)
         private set
-    var currentPage = 1
-        private set
 
+    private var currentPage = 1
     private var totalPages = 1
     private var isLoadingMore = false
     private var searchJob: Job? = null
