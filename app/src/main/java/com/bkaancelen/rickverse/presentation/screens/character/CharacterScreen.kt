@@ -2,7 +2,7 @@ package com.bkaancelen.rickverse.presentation.screens.character
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -42,25 +42,20 @@ fun CharacterScreen(viewModel: CharacterViewModel = hiltViewModel()) {
                 selected = viewModel.statusQuery,
                 onSelected = viewModel::onStatusChanged,
             )
+            Spacer(modifier = Modifier.padding(8.dp))
             GenderFilterDropdown(
                 selected = viewModel.genderQuery,
                 onSelected = viewModel::onGenderChanged
             )
+            Spacer(modifier = Modifier.padding(8.dp))
             ResetFiltersButton(
                 onReset = viewModel::resetFilters
             )
         }
-
         Spacer(modifier = Modifier.height(8.dp))
 
         // Content
         when {
-            state.isLoading -> {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator()
-                }
-            }
-
             state.errorMessage != null -> {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Text("❌ ${state.errorMessage}")
@@ -74,9 +69,28 @@ fun CharacterScreen(viewModel: CharacterViewModel = hiltViewModel()) {
             }
 
             else -> {
-                LazyColumn {
-                    items(state.characters) { character ->
-                        CharacterItem(character)
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(start = 8.dp, end = 8.dp, bottom = 24.dp)
+                ) {
+                    itemsIndexed(state.characters, key = { _, item -> item.id }) { index, item ->
+                        CharacterItem(item)
+
+                        if (index == state.characters.lastIndex.minus(5)) run {
+                            viewModel.onScrollLoad()
+                        }
+                    }
+
+                    // Loading
+                    item {
+                        if (state.isLoading) {
+                            Box(
+                                modifier = Modifier.fillMaxWidth().padding(vertical = 100.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                CircularProgressIndicator()
+                            }
+                        }
                     }
                 }
             }

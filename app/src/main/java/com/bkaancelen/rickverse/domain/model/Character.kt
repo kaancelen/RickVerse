@@ -1,5 +1,10 @@
 package com.bkaancelen.rickverse.domain.model
 
+data class CharactersList(
+    val pageInfo: PageInfo,
+    val characters: List<Character>
+)
+
 data class Character(
     val id: Int,
     val name: String,
@@ -10,4 +15,8 @@ data class Character(
     val image: String,
     val episodeCount: Int,
     val firstSeenEpisodeNumber: Int?
+)
+
+data class PageInfo(
+    val totalPages: Int
 )

@@ -23,13 +23,18 @@ class CharacterViewModel @Inject constructor(
         private set
     var genderQuery by mutableStateOf<String?>(null)
         private set
+    var currentPage = 1
+        private set
+
+    private var totalPages = 1
+    private var isLoadingMore = false
     private var searchJob: Job? = null
 
     var uiState by mutableStateOf(CharacterUiState())
         private set
 
     init {
-        loadCharacters()
+        loadCharacters(reset = true)
     }
 
     fun onNameQueryChanged(query: String) {
@@ -58,27 +63,53 @@ class CharacterViewModel @Inject constructor(
         loadCharacters()
     }
 
+    fun onScrollLoad() {
+        loadCharacters(reset = false)
+    }
 
-    private fun loadCharacters() {
+
+    private fun loadCharacters(reset: Boolean = true) {
+        if (isLoadingMore || (currentPage > totalPages && !reset)) return
+
         viewModelScope.launch {
-            uiState = uiState.copy(isLoading = true)
+            if (reset) {
+                currentPage = 1
+                totalPages = 1
+                uiState = uiState.copy(isLoading = true, characters = emptyList(), errorMessage = null)
+            } else {
+                isLoadingMore = true
+                uiState = uiState.copy(isLoading = true)
+            }
 
             try {
-                val characters = getCharactersUseCase(
+                val response = getCharactersUseCase(
                     name = nameQuery,
                     status = statusQuery,
-                    gender = genderQuery
+                    gender = genderQuery,
+                    page = currentPage
                 )
+                totalPages = response.pageInfo.totalPages
+
+                val newList = if (reset) {
+                    response.characters
+                } else {
+                    uiState.characters + response.characters
+                }
+
                 uiState = uiState.copy(
-                    characters = characters,
+                    characters = newList,
                     isLoading = false,
                     errorMessage = null
                 )
+
+                currentPage++
             } catch (e: Exception) {
                 uiState = uiState.copy(
                     isLoading = false,
                     errorMessage = e.message ?: "Unknown error"
                 )
+            } finally {
+                isLoadingMore = false
             }
         }
     }

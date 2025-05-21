@@ -11,7 +11,8 @@ interface MultiverseApi {
     suspend fun getCharacters(
         @Query("name") name: String? = null,
         @Query("status") status: String? = null,
-        @Query("gender") gender: String? = null
+        @Query("gender") gender: String? = null,
+        @Query("page") page: Int = 1
     ): CharactersListDto
 
     @GET("character/{id}")
