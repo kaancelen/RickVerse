@@ -75,7 +75,7 @@ class CharacterViewModel @Inject constructor(
             if (reset) {
                 currentPage = 1
                 totalPages = 1
-                uiState = uiState.copy(isLoading = true, characters = emptyList(), errorMessage = null)
+                uiState = CharacterUiState(isLoading = true)
             } else {
                 isLoadingMore = true
                 uiState = uiState.copy(isLoading = true)

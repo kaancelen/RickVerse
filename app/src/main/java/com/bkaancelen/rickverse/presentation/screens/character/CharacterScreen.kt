@@ -55,42 +55,45 @@ fun CharacterScreen(viewModel: CharacterViewModel = hiltViewModel()) {
         Spacer(modifier = Modifier.height(8.dp))
 
         // Content
-        when {
-            state.errorMessage != null -> {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text("❌ ${state.errorMessage}")
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(start = 8.dp, end = 8.dp, bottom = 24.dp)
+        ) {
+            when {
+                state.errorMessage != null -> {
+                    item {
+                        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                            Text("❌ ${state.errorMessage}")
+                        }
+                    }
                 }
-            }
 
-            state.characters.isEmpty() -> {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text("No characters found.")
+                state.characters.isEmpty() -> {
+                    item {
+                        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                            Text("No characters found.")
+                        }
+                    }
                 }
-            }
 
-            else -> {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(start = 8.dp, end = 8.dp, bottom = 24.dp)
-                ) {
+                else -> {
                     itemsIndexed(state.characters, key = { _, item -> item.id }) { index, item ->
                         CharacterItem(item)
 
-                        if (index == state.characters.lastIndex.minus(5)) run {
+                        if (index >= state.characters.lastIndex.minus(5)) run {
                             viewModel.onScrollLoad()
                         }
                     }
+                }
+            }
 
-                    // Loading
-                    item {
-                        if (state.isLoading) {
-                            Box(
-                                modifier = Modifier.fillMaxWidth().padding(vertical = 100.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                CircularProgressIndicator()
-                            }
-                        }
+            if (state.isLoading) {
+                item {
+                    Box(
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 24.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
                     }
                 }
             }
